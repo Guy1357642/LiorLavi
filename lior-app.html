@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ליאור">
+<link rel="apple-touch-icon" href="icon.png">
+<title>האפליקציה של ליאור</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#f6a8c1;
+    --pink-light:#ffe6ee;
+    --pink-dark:#d6538a;
+    --lavender:#d8c8f0;
+    --lavender-light:#efe6fb;
+    --mint:#bfe6cf;
+    --mint-light:#e6f7ec;
+    --peach:#ffcaa3;
+    --peach-light:#fff1e3;
+    --butter:#ffe9a8;
+    --butter-light:#fff8e1;
+    --cream:#fffaf7;
+    --ink:#5a4a54;
+    --ink-light:#8a7a84;
+    --shadow: 0 6px 18px rgba(214,83,138,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Rubik', -apple-system, sans-serif;
+    background: linear-gradient(160deg, var(--pink-light), var(--lavender-light) 60%, var(--cream));
+    color:var(--ink);
+    min-height:100vh;
+    padding-bottom:90px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  header{
+    padding:22px 20px 14px;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    color:var(--pink-dark);
+  }
+  header p{
+    margin:4px 0 0;
+    font-size:13px;
+    color:var(--ink-light);
+  }
+  main{
+    max-width:520px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+  .card{
+    background:#fff;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:var(--shadow);
+  }
+  .section-title{
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .pill-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .pill{
+    flex:1;
+    text-align:center;
+    padding:9px 6px;
+    border-radius:999px;
+    background:var(--pink-light);
+    color:var(--pink-dark);
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    border:none;
+    transition:.15s;
+  }
+  .pill.active{
+    background:var(--pink-dark);
+    color:#fff;
+  }
+  input, select, textarea{
+    width:100%;
+    padding:11px 12px;
+    border-radius:12px;
+    border:1.5px solid #f0dde6;
+    background:#fffdfc;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color:var(--pink);
+  }
+  label.field-label{
+    font-size:12px;
+    color:var(--ink-light);
+    margin:0 0 4px 2px;
+    display:block;
+    font-weight:600;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:11px 18px;
+    border-radius:12px;
+    border:none;
+    background:var(--pink-dark);
+    color:#fff;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    width:100%;
+    transition:.15s;
+  }
+  .btn:active{ transform:scale(.97); }
+  .btn.secondary{
+    background:var(--lavender);
+    color:#5b4d78;
+  }
+  .btn.add-toggle{
+    background:var(--pink-light);
+    color:var(--pink-dark);
+    margin-bottom:14px;
+  }
+  .hidden{ display:none !important; }
+  .item-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    background:var(--cream);
+    border-radius:14px;
+    padding:12px;
+    margin-bottom:9px;
+    transition:opacity .25s, transform .25s;
+  }
+  .item-row.fade-out{ opacity:0; transform:translateX(20px); }
+  .item-icon{
+    font-size:20px;
+    flex-shrink:0;
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+    border-radius:50%;
+  }
+  .item-body{ flex:1; min-width:0; }
+  .item-title{ font-weight:600; font-size:14.5px; }
+  .item-sub{ font-size:12px; color:var(--ink-light); margin-top:2px; }
+  .item-details{ font-size:12.5px; color:var(--ink-light); margin-top:6px; line-height:1.5; }
+  .del-btn{
+    background:none;
+    border:none;
+    color:#d99;
+    font-size:16px;
+    cursor:pointer;
+    padding:4px;
+    flex-shrink:0;
+  }
+  .checkbox{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    border:2px solid var(--mint);
+    flex-shrink:0;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+  }
+  .checkbox.checked{ background:var(--mint); }
+  .cat-heading{
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-light);
+    margin:14px 0 8px;
+    padding-right:2px;
+  }
+  .cat-heading:first-child{ margin-top:0; }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+  .chip{
+    background:var(--mint-light);
+    color:#3f7a58;
+    border-radius:999px;
+    padding:6px 13px;
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+    border:1px solid #cdeedb;
+  }
+  .empty-msg{
+    text-align:center;
+    color:var(--ink-light);
+    font-size:13px;
+    padding:18px 0;
+  }
+  .task-text.done{ text-decoration:line-through; color:var(--ink-light); }
+  .recipe-link{ color:var(--pink-dark); font-weight:600; font-size:12.5px; text-decoration:none; }
+  nav.tabbar{
+    position:fixed;
+    bottom:0; left:0; right:0;
+    background:#fff;
+    display:flex;
+    box-shadow:0 -4px 16px rgba(0,0,0,0.06);
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+    z-index:50;
+  }
+  nav.tabbar button{
+    flex:1;
+    background:none;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    font-size:10.5px;
+    color:var(--ink-light);
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  nav.tabbar button .tab-icon{ font-size:20px; }
+  nav.tabbar button.active{ color:var(--pink-dark); }
+  .doctor-field{ margin-top:-2px; }
+  .new-type-box{
+    display:flex;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .new-type-box input{ margin-bottom:0; }
+  .new-type-box button{
+    width:auto;
+    padding:0 16px;
+    border-radius:12px;
+    border:none;
+    background:var(--pink-dark);
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>האפליקציה של ליאור 💗</h1>
+  <p id="headerSub">כל מה שצריך, במקום אחד</p>
+</header>
+
+<main>
+
+  <!-- ===================== תורים ===================== -->
+  <section id="tab-appointments" class="tab-content">
+    <div class="card">
+      <div class="pill-row">
+        <button class="pill active" data-range="day">היום</button>
+        <button class="pill" data-range="week">השבוע</button>
+        <button class="pill" data-range="month">החודש</button>
+      </div>
+      <button class="btn add-toggle" id="apptAddToggle">➕ תור חדש</button>
+
+      <div id="apptForm" class="hidden">
+        <label class="field-label">סוג התור</label>
+        <select id="apptType"></select>
+
+        <div id="newTypeBox" class="new-type-box hidden">
+          <input type="text" id="newTypeInput" placeholder="שם הקטגוריה החדשה">
+          <button type="button" id="newTypeConfirm">הוסף</button>
+        </div>
+
+        <div id="doctorField" class="doctor-field hidden">
+          <label class="field-label">סוג רופא</label>
+          <input type="text" id="apptDoctorType" placeholder="למשל: רופא עור, רופא שיניים...">
+        </div>
+
+        <label class="field-label">תאריך</label>
+        <input type="date" id="apptDate">
+
+        <label class="field-label">שעה</label>
+        <input type="time" id="apptTime">
+
+        <label class="field-label">כתובת (לא חובה)</label>
+        <input type="text" id="apptAddress" placeholder="כתובת">
+
+        <label class="field-label">מחיר (לא חובה)</label>
+        <input type="text" id="apptPrice" placeholder="מחיר">
+
+        <label class="field-label">הערות</label>
+        <textarea id="apptNotes" rows="2" placeholder="הערות כלליות"></textarea>
+
+        <button class="btn" id="apptSave">שמור תור 💾</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">📅 התורים שלי</div>
+      <div id="apptList"></div>
+    </div>
+  </section>
+
+  <!-- ===================== סופר ===================== -->
+  <section id="tab-groceries" class="tab-content hidden">
+    <div class="card">
+      <div class="section-title">➕ הוספת מצרך</div>
+      <input type="text" id="groceryInput" list="groceryCatalogList" placeholder="מה חסר בבית?">
+      <datalist id="groceryCatalogList"></datalist>
+      <button class="btn" id="groceryAddBtn">הוסף לרשימה</button>
+
+      <div id="quickAddWrap" style="margin-top:14px;">
+        <label class="field-label">הוספה מהירה</label>
+        <div class="chip-row" id="quickAddChips"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">🛒 רשימת קניות</div>
+      <div id="groceryList"></div>
+    </div>
+  </section>
+
+  <!-- ===================== מטלות ===================== -->
+  <section id="tab-tasks" class="tab-content hidden">
+    <div class="card">
+      <div class="section-title">➕ מטלה חדשה</div>
+      <input type="text" id="taskInput" placeholder="מה צריך/רוצה לעשות?">
+      <label class="field-label">תאריך (לא חובה)</label>
+      <input type="date" id="taskDate">
+      <label class="field-label">שעה (לא חובה)</label>
+      <input type="time" id="taskTime">
+      <button class="btn" id="taskAddBtn">הוסף מטלה</button>
+    </div>
+    <div class="card">
+      <div class="section-title">✅ המטלות שלי</div>
+      <div id="taskList"></div>
+    </div>
+  </section>
+
+  <!-- ===================== Wishlist ===================== -->
+  <section id="tab-wishlist" class="tab-content hidden">
+    <div class="card">
+      <div class="section-title">➕ הוספה ל-Wishlist</div>
+      <input type="text" id="wishInput" placeholder="דבר שהייתי שמחה לקבל...">
+      <button class="btn" id="wishAddBtn">הוסף</button>
+    </div>
+    <div class="card">
+      <div class="section-title">💝 דברים שהייתי שמחה לקבל מבעלי</div>
+      <div id="wishList"></div>
+    </div>
+  </section>
+
+  <!-- ===================== מתכונים ===================== -->
+  <section id="tab-recipes" class="tab-content hidden">
+    <div class="card">
+      <div class="section-title">➕ מתכון חדש לניסיון</div>
+      <label class="field-label">מה המאכל?</label>
+      <input type="text" id="recipeName" placeholder="שם המאכל">
+      <label class="field-label">לינק למתכון (לא חובה)</label>
+      <input type="text" id="recipeLink" placeholder="https://...">
+      <button class="btn" id="recipeAddBtn">הוסף מתכון</button>
+    </div>
+    <div class="card">
+      <div class="section-title">🍲 מתכונים שרוצה לנסות</div>
+      <div id="recipeList"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <button data-tab="appointments" class="active"><span class="tab-icon">📅</span>תורים</button>
+  <button data-tab="groceries"><span class="tab-icon">🛒</span>סופר</button>
+  <button data-tab="tasks"><span class="tab-icon">✅</span>מטלות</button>
+  <button data-tab="wishlist"><span class="tab-icon">💝</span>Wishlist</button>
+  <button data-tab="recipes"><span class="tab-icon">🍲</span>מתכונים</button>
+</nav>
+
+<script>
+/* ===================== Storage ===================== */
+const STORAGE_KEY = 'liorAppData_v1';
+
+const DEFAULT_TYPES = ["תור לציפורניים","תור להחלקה","תור לטיפול פנים","תור לשיננית","תור לרופא","תור למסעדה","דייט עם חברה"];
+
+const DEFAULT_CATALOG = [
+  ["קטשופ","רטבים ושימורים"],["גבינה לבנה","מוצרי חלב"],["לבנה","מוצרי חלב"],
+  ["נייר טואלט","ניקיון וטואלטיקה"],["נייר סופג","ניקיון וטואלטיקה"],
+  ["אבטיח","ירקות ופירות"],["ענבים","ירקות ופירות"],["מנגו","ירקות ופירות"],
+  ["תותים","ירקות ופירות"],["חמאה","מוצרי חלב"],["חלב","מוצרי חלב"],
+  ["חלב שקדים","מוצרי חלב"],["מים","משקאות"],["פטל","ירקות ופירות"],
+  ["אורז","מוצרים יבשים"],["פתיתים","מוצרים יבשים"],["בשר טחון","בשר ועוף"],
+  ["חזה עוף","בשר ועוף"],["שמנת מתוקה","מוצרי חלב"],["שמנת חמוצה","מוצרי חלב"],
+  ["פסטה","מוצרים יבשים"],["טונה","רטבים ושימורים"],["עגבניות מרוסקות","רטבים ושימורים"],
+  ["עגבניות שרי","ירקות ופירות"],["מלפפון","ירקות ופירות"],["עגבניה","ירקות ופירות"],
+  ["גמבה","ירקות ופירות"],["פטרוזיליה","ירקות ופירות"],["כוסברה","ירקות ופירות"],
+  ["שום","ירקות ופירות"],["בצל","ירקות ופירות"],["גזר","ירקות ופירות"],
+  ["רכז עגבניות","רטבים ושימורים"],["חטיפים","חטיפים ומתוקים"],["קורנפלקס","מוצרים יבשים"]
+];
+
+function loadData(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){
+    try{ return JSON.parse(raw); }catch(e){}
+  }
+  return {
+    appointmentTypes: DEFAULT_TYPES.slice(),
+    appointments: [],
+    groceryCatalog: DEFAULT_CATALOG.map(([name,category])=>({name,category})),
+    groceryList: [],
+    tasks: [],
+    wishlist: [],
+    recipes: []
+  };
+}
+let data = loadData();
+function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+/* ===================== Tabs ===================== */
+document.querySelectorAll('nav.tabbar button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabbar button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(s=>s.classList.add('hidden'));
+    document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
+  });
+});
+
+/* ===================== Appointments ===================== */
+const apptIcons = [
+  ["ציפורני","💅"],["החלק","💇‍♀️"],["פנים","🧖‍♀️"],["שינ","🦷"],
+  ["רופא","🩺"],["מסעד","🍽️"],["דייט","👭"]
+];
+function iconForType(type){
+  const f = apptIcons.find(([k])=>type.includes(k));
+  return f ? f[1] : "📌";
+}
+
+function renderTypeSelect(){
+  const sel = document.getElementById('apptType');
+  sel.innerHTML = '';
+  data.appointmentTypes.forEach(t=>{
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t;
+    sel.appendChild(o);
+  });
+  const other = document.createElement('option');
+  other.value = "__other__"; other.textContent = "➕ קטגוריה אחרת...";
+  sel.appendChild(other);
+}
+renderTypeSelect();
+
+document.getElementById('apptAddToggle').addEventListener('click', ()=>{
+  document.getElementById('apptForm').classList.toggle('hidden');
+});
+
+document.getElementById('apptType').addEventListener('change', (e)=>{
+  document.getElementById('newTypeBox').classList.toggle('hidden', e.target.value !== "__other__");
+  document.getElementById('doctorField').classList.toggle('hidden', !e.target.value.includes('רופא'));
+});
+
+document.getElementById('newTypeConfirm').addEventListener('click', ()=>{
+  const val = document.getElementById('newTypeInput').value.trim();
+  if(!val) return;
+  if(!data.appointmentTypes.includes(val)){
+    data.appointmentTypes.push(val);
+    save();
+  }
+  renderTypeSelect();
+  document.getElementById('apptType').value = val;
+  document.getElementById('newTypeBox').classList.add('hidden');
+  document.getElementById('newTypeInput').value = '';
+  document.getElementById('doctorField').classList.toggle('hidden', !val.includes('רופא'));
+});
+
+document.getElementById('apptSave').addEventListener('click', ()=>{
+  const type = document.getElementById('apptType').value;
+  const date = document.getElementById('apptDate').value;
+  if(type === "__other__" || !date){ alert('בחרי סוג תור ותאריך'); return; }
+  data.appointments.push({
+    id: uid(),
+    type,
+    doctorType: document.getElementById('apptDoctorType').value.trim(),
+    date,
+    time: document.getElementById('apptTime').value,
+    address: document.getElementById('apptAddress').value.trim(),
+    price: document.getElementById('apptPrice').value.trim(),
+    notes: document.getElementById('apptNotes').value.trim()
+  });
+  save();
+  ['apptDate','apptTime','apptAddress','apptPrice','apptNotes','apptDoctorType'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('apptForm').classList.add('hidden');
+  renderAppointments();
+});
+
+let currentRange = 'day';
+document.querySelectorAll('#tab-appointments .pill').forEach(p=>{
+  p.addEventListener('click', ()=>{
+    document.querySelectorAll('#tab-appointments .pill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    currentRange = p.dataset.range;
+    renderAppointments();
+  });
+});
+
+function heDate(dstr){
+  const d = new Date(dstr+'T00:00:00');
+  const days = ['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','יום שבת'];
+  return days[d.getDay()] + ', ' + d.getDate() + '.' + (d.getMonth()+1);
+}
+
+function inRange(dstr){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dstr+'T00:00:00');
+  if(d < today) return false;
+  if(currentRange==='day'){
+    return d.getTime()===today.getTime();
+  }
+  if(currentRange==='week'){
+    const weekLater = new Date(today); weekLater.setDate(today.getDate()+7);
+    return d <= weekLater;
+  }
+  if(currentRange==='month'){
+    return d.getMonth()===today.getMonth() && d.getFullYear()===today.getFullYear();
+  }
+  return true;
+}
+
+function renderAppointments(){
+  const list = document.getElementById('apptList');
+  list.innerHTML = '';
+  const items = data.appointments.filter(a=>inRange(a.date))
+    .sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
+  if(items.length===0){
+    list.innerHTML = '<div class="empty-msg">אין תורים בטווח הזה 🌸</div>';
+    return;
+  }
+  items.forEach(a=>{
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    let details = '';
+    if(a.doctorType) details += `סוג רופא: ${a.doctorType}<br>`;
+    if(a.address) details += `📍 ${a.address}<br>`;
+    if(a.price) details += `💰 ${a.price}<br>`;
+    if(a.notes) details += `📝 ${a.notes}`;
+    row.innerHTML = `
+      <div class="item-icon">${iconForType(a.type)}</div>
+      <div class="item-body">
+        <div class="item-title">${a.type}</div>
+        <div class="item-sub">${heDate(a.date)}${a.time ? ' · '+a.time : ''}</div>
+        ${details ? `<div class="item-details">${details}</div>` : ''}
+      </div>
+      <button class="del-btn" data-id="${a.id}">🗑️</button>
+    `;
+    row.querySelector('.del-btn').addEventListener('click', ()=>{
+      data.appointments = data.appointments.filter(x=>x.id!==a.id);
+      save(); renderAppointments();
+    });
+    list.appendChild(row);
+  });
+}
+renderAppointments();
+
+/* ===================== Groceries ===================== */
+function renderCatalogList(){
+  const dl = document.getElementById('groceryCatalogList');
+  dl.innerHTML = '';
+  data.groceryCatalog.forEach(c=>{
+    const o = document.createElement('option');
+    o.value = c.name;
+    dl.appendChild(o);
+  });
+}
+
+function findCategory(name){
+  const found = data.groceryCatalog.find(c=>c.name.trim()===name.trim());
+  return found ? found.category : 'אחר';
+}
+
+function addGroceryItem(name){
+  name = name.trim();
+  if(!name) return;
+  if(!data.groceryCatalog.find(c=>c.name===name)){
+    data.groceryCatalog.push({name, category:'אחר'});
+  }
+  if(!data.groceryList.find(i=>i.name===name)){
+    data.groceryList.push({id:uid(), name, category: findCategory(name)});
+  }
+  save();
+  renderCatalogList();
+  renderGroceries();
+}
+
+document.getElementById('groceryAddBtn').addEventListener('click', ()=>{
+  const inp = document.getElementById('groceryInput');
+  addGroceryItem(inp.value);
+  inp.value = '';
+});
+document.getElementById('groceryInput').addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){ addGroceryItem(e.target.value); e.target.value=''; }
+});
+
+function renderQuickAdd(){
+  const wrap = document.getElementById('quickAddChips');
+  wrap.innerHTML = '';
+  const inListNames = data.groceryList.map(i=>i.name);
+  const available = data.groceryCatalog.filter(c=>!inListNames.includes(c.name));
+  if(available.length===0){
+    wrap.innerHTML = '<span class="empty-msg" style="padding:0;">כל המצרכים הידועים כבר ברשימה</span>';
+    return;
+  }
+  available.forEach(c=>{
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.textContent = '+ ' + c.name;
+    chip.addEventListener('click', ()=> addGroceryItem(c.name));
+    wrap.appendChild(chip);
+  });
+}
+
+function renderGroceries(){
+  const list = document.getElementById('groceryList');
+  list.innerHTML = '';
+  if(data.groceryList.length===0){
+    list.innerHTML = '<div class="empty-msg">הרשימה ריקה - הכל בבית! 🎉</div>';
+    renderQuickAdd();
+    return;
+  }
+  const byCat = {};
+  data.groceryList.forEach(item=>{
+    if(!byCat[item.category]) byCat[item.category] = [];
+    byCat[item.category].push(item);
+  });
+  Object.keys(byCat).sort().forEach(cat=>{
+    const heading = document.createElement('div');
+    heading.className = 'cat-heading';
+    heading.textContent = cat;
+    list.appendChild(heading);
+    byCat[cat].forEach(item=>{
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML = `
+        <div class="checkbox" data-id="${item.id}"></div>
+        <div class="item-body"><div class="item-title">${item.name}</div></div>
+      `;
+      row.querySelector('.checkbox').addEventListener('click', ()=>{
+        row.classList.add('fade-out');
+        setTimeout(()=>{
+          data.groceryList = data.groceryList.filter(x=>x.id!==item.id);
+          save(); renderGroceries();
+        }, 220);
+      });
+      list.appendChild(row);
+    });
+  });
+  renderQuickAdd();
+}
+renderCatalogList();
+renderGroceries();
+
+/* ===================== Tasks ===================== */
+document.getElementById('taskAddBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('taskInput').value.trim();
+  if(!text) return;
+  data.tasks.push({
+    id: uid(), text,
+    date: document.getElementById('taskDate').value,
+    time: document.getElementById('taskTime').value,
+    done: false
+  });
+  save();
+  document.getElementById('taskInput').value='';
+  document.getElementById('taskDate').value='';
+  document.getElementById('taskTime').value='';
+  renderTasks();
+});
+
+function renderTasks(){
+  const list = document.getElementById('taskList');
+  list.innerHTML = '';
+  if(data.tasks.length===0){ list.innerHTML = '<div class="empty-msg">אין מטלות כרגע ✨</div>'; return; }
+  data.tasks.forEach(t=>{
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    const when = [t.date, t.time].filter(Boolean).join(' · ');
+    row.innerHTML = `
+      <div class="checkbox ${t.done?'checked':''}" data-id="${t.id}"></div>
+      <div class="item-body">
+        <div class="item-title task-text ${t.done?'done':''}">${t.text}</div>
+        ${when ? `<div class="item-sub">${when}</div>` : ''}
+      </div>
+      <button class="del-btn" data-id="${t.id}">🗑️</button>
+    `;
+    row.querySelector('.checkbox').addEventListener('click', ()=>{
+      t.done = !t.done; save(); renderTasks();
+    });
+    row.querySelector('.del-btn').addEventListener('click', ()=>{
+      data.tasks = data.tasks.filter(x=>x.id!==t.id); save(); renderTasks();
+    });
+    list.appendChild(row);
+  });
+}
+renderTasks();
+
+/* ===================== Wishlist ===================== */
+document.getElementById('wishAddBtn').addEventListener('click', ()=>{
+  const text = document.getElementById('wishInput').value.trim();
+  if(!text) return;
+  data.wishlist.push({id:uid(), text});
+  save();
+  document.getElementById('wishInput').value='';
+  renderWishlist();
+});
+function renderWishlist(){
+  const list = document.getElementById('wishList');
+  list.innerHTML = '';
+  if(data.wishlist.length===0){ list.innerHTML = '<div class="empty-msg">עדיין ריק 💭</div>'; return; }
+  data.wishlist.forEach(w=>{
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `
+      <div class="item-icon">💗</div>
+      <div class="item-body"><div class="item-title">${w.text}</div></div>
+      <button class="del-btn" data-id="${w.id}">🗑️</button>
+    `;
+    row.querySelector('.del-btn').addEventListener('click', ()=>{
+      data.wishlist = data.wishlist.filter(x=>x.id!==w.id); save(); renderWishlist();
+    });
+    list.appendChild(row);
+  });
+}
+renderWishlist();
+
+/* ===================== Recipes ===================== */
+document.getElementById('recipeAddBtn').addEventListener('click', ()=>{
+  const name = document.getElementById('recipeName').value.trim();
+  const link = document.getElementById('recipeLink').value.trim();
+  if(!name) return;
+  data.recipes.push({id:uid(), name, link});
+  save();
+  document.getElementById('recipeName').value='';
+  document.getElementById('recipeLink').value='';
+  renderRecipes();
+});
+function renderRecipes(){
+  const list = document.getElementById('recipeList');
+  list.innerHTML = '';
+  if(data.recipes.length===0){ list.innerHTML = '<div class="empty-msg">עדיין אין מתכונים 🍽️</div>'; return; }
+  data.recipes.forEach(r=>{
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `
+      <div class="item-icon">🍲</div>
+      <div class="item-body">
+        <div class="item-title">${r.name}</div>
+        ${r.link ? `<a class="recipe-link" href="${r.link}" target="_blank" rel="noopener">🔗 למתכון</a>` : ''}
+      </div>
+      <button class="del-btn" data-id="${r.id}">🗑️</button>
+    `;
+    row.querySelector('.del-btn').addEventListener('click', ()=>{
+      data.recipes = data.recipes.filter(x=>x.id!==r.id); save(); renderRecipes();
+    });
+    list.appendChild(row);
+  });
+}
+renderRecipes();
+</script>
+</body>
+</html>
