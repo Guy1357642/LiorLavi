@@ -26,6 +26,7 @@
     --cream:#fffaf7;
     --ink:#5a4a54;
     --ink-light:#8a7a84;
+    --danger:#c9587a;
     --shadow: 0 6px 18px rgba(214,83,138,0.12);
   }
   *{box-sizing:border-box;}
@@ -41,6 +42,7 @@
   header{
     padding:22px 20px 14px;
     text-align:center;
+    position:relative;
   }
   header h1{
     margin:0;
@@ -52,6 +54,20 @@
     margin:4px 0 0;
     font-size:13px;
     color:var(--ink-light);
+  }
+  #settingsBtn{
+    position:absolute;
+    top:20px;
+    left:16px;
+    background:#fff;
+    border:none;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    color:var(--pink-dark);
   }
   main{
     max-width:520px;
@@ -73,22 +89,34 @@
     align-items:center;
     gap:8px;
   }
+  .section-title .spacer{ flex:1; }
+  .link-btn{
+    background:none;
+    border:none;
+    color:var(--danger);
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+    padding:4px 2px;
+  }
   .pill-row{
     display:flex;
-    gap:8px;
+    gap:6px;
     margin-bottom:14px;
   }
   .pill{
     flex:1;
     text-align:center;
-    padding:9px 6px;
+    padding:9px 4px;
     border-radius:999px;
     background:var(--pink-light);
     color:var(--pink-dark);
     font-weight:600;
-    font-size:13px;
+    font-size:12.5px;
     cursor:pointer;
     border:none;
+    font-family:inherit;
     transition:.15s;
   }
   .pill.active{
@@ -129,6 +157,7 @@
     color:#fff;
     font-weight:600;
     font-size:14px;
+    font-family:inherit;
     cursor:pointer;
     width:100%;
     transition:.15s;
@@ -143,7 +172,21 @@
     color:var(--pink-dark);
     margin-bottom:14px;
   }
+  .btn.outline{
+    background:#fff;
+    color:var(--pink-dark);
+    border:1.5px solid var(--pink-light);
+  }
   .hidden{ display:none !important; }
+  .file-input{
+    position:absolute;
+    width:1px; height:1px;
+    padding:0; margin:-1px;
+    opacity:0;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    border:0;
+  }
   .item-row{
     display:flex;
     align-items:flex-start;
@@ -155,6 +198,7 @@
     transition:opacity .25s, transform .25s;
   }
   .item-row.fade-out{ opacity:0; transform:translateX(20px); }
+  .item-row.past{ opacity:.72; }
   .item-icon{
     font-size:20px;
     flex-shrink:0;
@@ -170,6 +214,7 @@
   .item-title{ font-weight:600; font-size:14.5px; }
   .item-sub{ font-size:12px; color:var(--ink-light); margin-top:2px; }
   .item-details{ font-size:12.5px; color:var(--ink-light); margin-top:6px; line-height:1.5; }
+  .item-actions{ display:flex; flex-direction:column; gap:2px; flex-shrink:0; }
   .del-btn{
     background:none;
     border:none;
@@ -178,6 +223,24 @@
     cursor:pointer;
     padding:4px;
     flex-shrink:0;
+  }
+  .clip-btn{
+    background:none;
+    border:none;
+    font-size:15px;
+    cursor:pointer;
+    padding:4px;
+    opacity:.75;
+  }
+  .badge-today{
+    display:inline-block;
+    background:var(--butter);
+    color:#7a5c14;
+    border-radius:999px;
+    padding:1px 8px;
+    font-size:11px;
+    font-weight:700;
+    margin-inline-start:6px;
   }
   .checkbox{
     width:22px;
@@ -211,6 +274,19 @@
     cursor:pointer;
     border:1px solid #cdeedb;
   }
+  .chip.lav{
+    background:var(--lavender-light);
+    color:#5b4d78;
+    border-color:#e0d3f5;
+  }
+  .ask-box{
+    background:var(--butter-light);
+    border:1px solid #f6e6b8;
+    border-radius:14px;
+    padding:12px;
+    margin-top:12px;
+  }
+  .ask-box p{ margin:0 0 8px; font-size:13px; font-weight:600; }
   .empty-msg{
     text-align:center;
     color:var(--ink-light);
@@ -219,6 +295,93 @@
   }
   .task-text.done{ text-decoration:line-through; color:var(--ink-light); }
   .recipe-link{ color:var(--pink-dark); font-weight:600; font-size:12.5px; text-decoration:none; }
+  .file-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:11px 18px;
+    border-radius:12px;
+    background:var(--lavender-light);
+    color:#5b4d78;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    margin-bottom:10px;
+  }
+  .thumb-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .thumb{
+    width:54px;
+    height:54px;
+    border-radius:12px;
+    border:1.5px solid #f0dde6;
+    background:#fff;
+    padding:0;
+    overflow:hidden;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+  }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(50,35,45,.62);
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .modal-card{
+    background:#fff;
+    border-radius:20px;
+    padding:18px;
+    width:100%;
+    max-width:420px;
+    max-height:88vh;
+    overflow:auto;
+  }
+  .modal-card h2{ margin:0 0 12px; font-size:18px; color:var(--pink-dark); }
+  .modal-card h3{ margin:16px 0 8px; font-size:14px; }
+  .modal-note{ font-size:12px; color:var(--ink-light); line-height:1.5; margin:0 0 10px; }
+  .viewer-img{
+    width:100%;
+    border-radius:14px;
+    display:block;
+    margin-bottom:12px;
+    background:var(--cream);
+  }
+  .usage-track{
+    height:8px;
+    border-radius:999px;
+    background:var(--pink-light);
+    overflow:hidden;
+    margin:6px 0 4px;
+  }
+  .usage-fill{ height:100%; background:var(--pink-dark); width:0%; }
+  .toast{
+    position:fixed;
+    bottom:96px;
+    left:50%;
+    transform:translateX(-50%) translateY(14px);
+    background:var(--ink);
+    color:#fff;
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    max-width:88vw;
+    text-align:center;
+    opacity:0;
+    pointer-events:none;
+    transition:.22s;
+    z-index:120;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
   nav.tabbar{
     position:fixed;
     bottom:0; left:0; right:0;
@@ -259,13 +422,18 @@
     background:var(--pink-dark);
     color:#fff;
     font-weight:700;
+    font-family:inherit;
     cursor:pointer;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; }
   }
 </style>
 </head>
 <body>
 
 <header>
+  <button id="settingsBtn" title="הגדרות וגיבוי">⚙️</button>
   <h1>האפליקציה של ליאור 💗</h1>
   <p id="headerSub">כל מה שצריך, במקום אחד</p>
 </header>
@@ -277,8 +445,9 @@
     <div class="card">
       <div class="pill-row">
         <button class="pill active" data-range="day">היום</button>
-        <button class="pill" data-range="week">השבוע</button>
-        <button class="pill" data-range="month">החודש</button>
+        <button class="pill" data-range="week">7 ימים</button>
+        <button class="pill" data-range="month">30 יום</button>
+        <button class="pill" data-range="all">הכל</button>
       </div>
       <button class="btn add-toggle" id="apptAddToggle">➕ תור חדש</button>
 
@@ -311,13 +480,20 @@
         <label class="field-label">הערות</label>
         <textarea id="apptNotes" rows="2" placeholder="הערות כלליות"></textarea>
 
-        <button class="btn" id="apptSave">שמור תור 💾</button>
+        <label class="field-label">קבצים ותמונות (לא חובה)</label>
+        <label class="file-btn" for="apptFileInput">📎 צילום או קובץ מהטלפון</label>
+        <input type="file" id="apptFileInput" accept="image/*,application/pdf" multiple class="file-input">
+        <div class="thumb-row" id="pendingThumbs"></div>
+
+        <button class="btn" id="apptSave" style="margin-top:12px;">שמור תור 💾</button>
       </div>
     </div>
 
     <div class="card">
       <div class="section-title">📅 התורים שלי</div>
       <div id="apptList"></div>
+      <button class="link-btn hidden" id="pastToggle" style="color:var(--ink-light);"></button>
+      <div id="pastList" class="hidden"></div>
     </div>
   </section>
 
@@ -329,6 +505,11 @@
       <datalist id="groceryCatalogList"></datalist>
       <button class="btn" id="groceryAddBtn">הוסף לרשימה</button>
 
+      <div id="catAsk" class="ask-box hidden">
+        <p>לאיזה מדף לשייך את <span id="catAskName"></span>?</p>
+        <div class="chip-row" id="catAskChips"></div>
+      </div>
+
       <div id="quickAddWrap" style="margin-top:14px;">
         <label class="field-label">הוספה מהירה</label>
         <div class="chip-row" id="quickAddChips"></div>
@@ -336,7 +517,11 @@
     </div>
 
     <div class="card">
-      <div class="section-title">🛒 רשימת קניות</div>
+      <div class="section-title">
+        🛒 רשימת קניות
+        <span class="spacer"></span>
+        <button class="link-btn" id="groceryClearBtn">🧹 נקה רשימה</button>
+      </div>
       <div id="groceryList"></div>
     </div>
   </section>
@@ -353,7 +538,11 @@
       <button class="btn" id="taskAddBtn">הוסף מטלה</button>
     </div>
     <div class="card">
-      <div class="section-title">✅ המטלות שלי</div>
+      <div class="section-title">
+        ✅ המטלות שלי
+        <span class="spacer"></span>
+        <button class="link-btn" id="taskClearBtn">🧹 נקה שבוצעו</button>
+      </div>
       <div id="taskList"></div>
     </div>
   </section>
@@ -397,11 +586,52 @@
   <button data-tab="recipes"><span class="tab-icon">🍲</span>מתכונים</button>
 </nav>
 
+<!-- מוסיפים קובץ לתור קיים -->
+<input type="file" id="rowFileInput" accept="image/*,application/pdf" multiple class="file-input">
+
+<!-- מציג קובץ -->
+<div id="viewer" class="overlay hidden">
+  <div class="modal-card">
+    <h2 id="viewerName">קובץ</h2>
+    <div id="viewerBody"></div>
+    <a id="viewerDownload" class="btn secondary" style="text-decoration:none; margin-bottom:8px;" download>⬇️ שמור במכשיר</a>
+    <button class="btn outline" id="viewerDelete" style="margin-bottom:8px; color:var(--danger); border-color:#f3d3de;">🗑️ מחק קובץ</button>
+    <button class="btn" id="viewerClose">סגור</button>
+  </div>
+</div>
+
+<!-- הגדרות וגיבוי -->
+<div id="settings" class="overlay hidden">
+  <div class="modal-card">
+    <h2>הגדרות וגיבוי</h2>
+
+    <h3>מקום בזיכרון</h3>
+    <div class="usage-track"><div class="usage-fill" id="usageFill"></div></div>
+    <p class="modal-note" id="usageText"></p>
+
+    <h3>גיבוי</h3>
+    <p class="modal-note">הנתונים נשמרים רק בדפדפן הזה. כדאי לשמור גיבוי מדי פעם, ואז אפשר לשחזר הכל גם במכשיר אחר.</p>
+    <button class="btn secondary" id="exportBtn" style="margin-bottom:8px;">⬇️ שמור גיבוי</button>
+    <label class="file-btn" for="importInput">⬆️ שחזר מגיבוי</label>
+    <input type="file" id="importInput" accept="application/json,.json" class="file-input">
+
+    <h3>מחיקה</h3>
+    <button class="btn outline" id="wipeBtn" style="color:var(--danger); border-color:#f3d3de; margin-bottom:8px;">מחק את כל הנתונים</button>
+
+    <button class="btn" id="settingsClose">סגור</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 /* ===================== Storage ===================== */
 const STORAGE_KEY = 'liorAppData_v1';
+const STORAGE_LIMIT_CHARS = 2500000; /* ~5MB, localStorage שומר 2 בתים לתו */
 
 const DEFAULT_TYPES = ["תור לציפורניים","תור להחלקה","תור לטיפול פנים","תור לשיננית","תור לרופא","תור למסעדה","דייט עם חברה"];
+
+const CATEGORY_ORDER = ["ירקות ופירות","מוצרי חלב","בשר ועוף","מוצרים יבשים","רטבים ושימורים","חטיפים ומתוקים","משקאות","ניקיון וטואלטיקה","אחר"];
 
 const DEFAULT_CATALOG = [
   ["קטשופ","רטבים ושימורים"],["גבינה לבנה","מוצרי חלב"],["לבנה","מוצרי חלב"],
@@ -418,11 +648,7 @@ const DEFAULT_CATALOG = [
   ["רכז עגבניות","רטבים ושימורים"],["חטיפים","חטיפים ומתוקים"],["קורנפלקס","מוצרים יבשים"]
 ];
 
-function loadData(){
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if(raw){
-    try{ return JSON.parse(raw); }catch(e){}
-  }
+function freshData(){
   return {
     appointmentTypes: DEFAULT_TYPES.slice(),
     appointments: [],
@@ -433,9 +659,73 @@ function loadData(){
     recipes: []
   };
 }
+
+/* משלים שדות חסרים כדי שגרסאות חדשות לא ישברו נתונים קיימים */
+function normalize(raw){
+  const base = freshData();
+  const out = {};
+  Object.keys(base).forEach(k=>{
+    out[k] = Array.isArray(raw && raw[k]) ? raw[k] : base[k];
+  });
+  out.appointments = out.appointments.map(a=>({
+    id: a.id || uid(),
+    type: a.type || 'תור',
+    doctorType: a.doctorType || '',
+    date: a.date || '',
+    time: a.time || '',
+    address: a.address || '',
+    price: a.price || '',
+    notes: a.notes || '',
+    files: Array.isArray(a.files) ? a.files : []
+  })).filter(a=>a.date);
+  out.tasks = out.tasks.map(t=>({
+    id: t.id || uid(), text: t.text || '', date: t.date || '', time: t.time || '', done: !!t.done
+  })).filter(t=>t.text);
+  out.groceryCatalog = out.groceryCatalog
+    .filter(c=>c && c.name)
+    .map(c=>({name:String(c.name).trim(), category: c.category || 'אחר'}));
+  out.groceryList = out.groceryList
+    .filter(i=>i && i.name)
+    .map(i=>({id:i.id || uid(), name:String(i.name).trim(), category:i.category || 'אחר'}));
+  out.wishlist = out.wishlist.filter(w=>w && w.text).map(w=>({id:w.id||uid(), text:w.text}));
+  out.recipes = out.recipes.filter(r=>r && r.name).map(r=>({id:r.id||uid(), name:r.name, link:r.link||''}));
+  return out;
+}
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return normalize(JSON.parse(raw));
+  }catch(e){}
+  return freshData();
+}
+
 let data = loadData();
-function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    return true;
+  }catch(e){
+    toast('הזיכרון מלא. כדאי למחוק קבצים מצורפים ישנים.');
+    return false;
+  }
+}
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+}
 
 /* ===================== Tabs ===================== */
 document.querySelectorAll('nav.tabbar button').forEach(btn=>{
@@ -444,8 +734,102 @@ document.querySelectorAll('nav.tabbar button').forEach(btn=>{
     btn.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(s=>s.classList.add('hidden'));
     document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
+    window.scrollTo({top:0});
   });
 });
+
+/* ===================== Dates ===================== */
+const DAY_NAMES = ['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','יום שבת'];
+
+function startOfToday(){
+  const d = new Date(); d.setHours(0,0,0,0); return d;
+}
+function parseDate(dstr){
+  const d = new Date(dstr+'T00:00:00');
+  return isNaN(d.getTime()) ? null : d;
+}
+function daysFromToday(dstr){
+  const d = parseDate(dstr);
+  if(!d) return null;
+  return Math.round((d - startOfToday()) / 86400000);
+}
+function heDate(dstr){
+  const d = parseDate(dstr);
+  if(!d) return '';
+  const diff = daysFromToday(dstr);
+  const base = DAY_NAMES[d.getDay()] + ', ' + d.getDate() + '.' + (d.getMonth()+1);
+  if(diff === 0) return 'היום · ' + base;
+  if(diff === 1) return 'מחר · ' + base;
+  if(diff === 2) return 'מחרתיים · ' + base;
+  return base;
+}
+
+/* ===================== Files ===================== */
+const MAX_IMAGE_DIM = 1400;
+const IMAGE_QUALITY = 0.6;
+const MAX_FILE_BYTES = 2 * 1024 * 1024;
+
+function readAsDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=>resolve(r.result);
+    r.onerror = ()=>reject(new Error('read'));
+    r.readAsDataURL(file);
+  });
+}
+
+function compressImage(file){
+  return new Promise((resolve, reject)=>{
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = ()=>{
+      try{
+        const scale = Math.min(1, MAX_IMAGE_DIM / Math.max(img.width, img.height));
+        const w = Math.max(1, Math.round(img.width * scale));
+        const h = Math.max(1, Math.round(img.height * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        resolve(c.toDataURL('image/jpeg', IMAGE_QUALITY));
+      }catch(err){
+        URL.revokeObjectURL(url);
+        reject(err);
+      }
+    };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('image')); };
+    img.src = url;
+  });
+}
+
+async function processFile(file){
+  if(file.type && file.type.indexOf('image/') === 0){
+    let dataUrl;
+    try{
+      dataUrl = await compressImage(file);
+    }catch(e){
+      if(file.size > MAX_FILE_BYTES) throw new Error('too-big');
+      dataUrl = await readAsDataURL(file);
+    }
+    return { id: uid(), name: file.name || 'תמונה', type: 'image/jpeg', data: dataUrl };
+  }
+  if(file.size > MAX_FILE_BYTES) throw new Error('too-big');
+  return { id: uid(), name: file.name || 'קובץ', type: file.type || 'application/octet-stream', data: await readAsDataURL(file) };
+}
+
+async function filesFromInput(fileList){
+  const out = [];
+  for(const f of Array.from(fileList)){
+    try{
+      out.push(await processFile(f));
+    }catch(e){
+      toast(e.message === 'too-big' ? 'הקובץ ' + (f.name||'') + ' גדול מדי (עד 2MB)' : 'לא הצלחתי לקרוא את הקובץ');
+    }
+  }
+  return out;
+}
+
+function isImage(f){ return f.type && f.type.indexOf('image/') === 0; }
 
 /* ===================== Appointments ===================== */
 const apptIcons = [
@@ -453,7 +837,7 @@ const apptIcons = [
   ["רופא","🩺"],["מסעד","🍽️"],["דייט","👭"]
 ];
 function iconForType(type){
-  const f = apptIcons.find(([k])=>type.includes(k));
+  const f = apptIcons.find(([k])=>String(type).includes(k));
   return f ? f[1] : "📌";
 }
 
@@ -494,10 +878,37 @@ document.getElementById('newTypeConfirm').addEventListener('click', ()=>{
   document.getElementById('doctorField').classList.toggle('hidden', !val.includes('רופא'));
 });
 
+/* קבצים שנבחרו לפני שהתור נשמר */
+let pendingFiles = [];
+
+function renderPendingThumbs(){
+  const wrap = document.getElementById('pendingThumbs');
+  wrap.innerHTML = '';
+  pendingFiles.forEach((f, i)=>{
+    const b = document.createElement('button');
+    b.className = 'thumb';
+    b.title = f.name;
+    b.innerHTML = isImage(f) ? `<img src="${f.data}" alt="">` : '📄';
+    b.addEventListener('click', ()=>{
+      pendingFiles.splice(i,1);
+      renderPendingThumbs();
+      toast('הקובץ הוסר');
+    });
+    wrap.appendChild(b);
+  });
+}
+
+document.getElementById('apptFileInput').addEventListener('change', async (e)=>{
+  const added = await filesFromInput(e.target.files);
+  pendingFiles = pendingFiles.concat(added);
+  e.target.value = '';
+  renderPendingThumbs();
+});
+
 document.getElementById('apptSave').addEventListener('click', ()=>{
   const type = document.getElementById('apptType').value;
   const date = document.getElementById('apptDate').value;
-  if(type === "__other__" || !date){ alert('בחרי סוג תור ותאריך'); return; }
+  if(type === "__other__" || !date){ toast('בחרי סוג תור ותאריך'); return; }
   data.appointments.push({
     id: uid(),
     type,
@@ -506,12 +917,19 @@ document.getElementById('apptSave').addEventListener('click', ()=>{
     time: document.getElementById('apptTime').value,
     address: document.getElementById('apptAddress').value.trim(),
     price: document.getElementById('apptPrice').value.trim(),
-    notes: document.getElementById('apptNotes').value.trim()
+    notes: document.getElementById('apptNotes').value.trim(),
+    files: pendingFiles.slice()
   });
-  save();
+  if(!save()){
+    data.appointments.pop();
+    return;
+  }
+  pendingFiles = [];
+  renderPendingThumbs();
   ['apptDate','apptTime','apptAddress','apptPrice','apptNotes','apptDoctorType'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('apptForm').classList.add('hidden');
   renderAppointments();
+  toast('התור נשמר 💗');
 });
 
 let currentRange = 'day';
@@ -524,65 +942,163 @@ document.querySelectorAll('#tab-appointments .pill').forEach(p=>{
   });
 });
 
-function heDate(dstr){
-  const d = new Date(dstr+'T00:00:00');
-  const days = ['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','יום שבת'];
-  return days[d.getDay()] + ', ' + d.getDate() + '.' + (d.getMonth()+1);
-}
-
 function inRange(dstr){
-  const today = new Date(); today.setHours(0,0,0,0);
-  const d = new Date(dstr+'T00:00:00');
-  if(d < today) return false;
-  if(currentRange==='day'){
-    return d.getTime()===today.getTime();
-  }
-  if(currentRange==='week'){
-    const weekLater = new Date(today); weekLater.setDate(today.getDate()+7);
-    return d <= weekLater;
-  }
-  if(currentRange==='month'){
-    return d.getMonth()===today.getMonth() && d.getFullYear()===today.getFullYear();
-  }
+  const diff = daysFromToday(dstr);
+  if(diff === null || diff < 0) return false;
+  if(currentRange === 'day') return diff === 0;
+  if(currentRange === 'week') return diff <= 7;
+  if(currentRange === 'month') return diff <= 30;
   return true;
 }
+
+function apptRow(a, isPast){
+  const row = document.createElement('div');
+  row.className = 'item-row' + (isPast ? ' past' : '');
+  let details = '';
+  if(a.doctorType) details += 'סוג רופא: ' + esc(a.doctorType) + '<br>';
+  if(a.address) details += '📍 ' + esc(a.address) + '<br>';
+  if(a.price) details += '💰 ' + esc(a.price) + '<br>';
+  if(a.notes) details += '📝 ' + esc(a.notes);
+  const isToday = daysFromToday(a.date) === 0;
+  row.innerHTML = `
+    <div class="item-icon">${iconForType(a.type)}</div>
+    <div class="item-body">
+      <div class="item-title">${esc(a.type)}${isToday ? '<span class="badge-today">היום</span>' : ''}</div>
+      <div class="item-sub">${esc(heDate(a.date))}${a.time ? ' · '+esc(a.time) : ''}</div>
+      ${details ? `<div class="item-details">${details}</div>` : ''}
+      <div class="thumb-row"></div>
+    </div>
+    <div class="item-actions">
+      <button class="clip-btn" title="הוסף קובץ">📎</button>
+      <button class="del-btn" title="מחק תור">🗑️</button>
+    </div>
+  `;
+  const thumbs = row.querySelector('.thumb-row');
+  (a.files || []).forEach((f, idx)=>{
+    const b = document.createElement('button');
+    b.className = 'thumb';
+    b.title = f.name;
+    b.innerHTML = isImage(f) ? `<img src="${f.data}" alt="">` : '📄';
+    b.addEventListener('click', ()=>openViewer(a.id, f.id));
+    thumbs.appendChild(b);
+  });
+  row.querySelector('.clip-btn').addEventListener('click', ()=>{
+    attachTargetId = a.id;
+    document.getElementById('rowFileInput').click();
+  });
+  row.querySelector('.del-btn').addEventListener('click', ()=>{
+    const n = (a.files || []).length;
+    const msg = n ? `למחוק את התור? יימחקו גם ${n} קבצים מצורפים.` : 'למחוק את התור?';
+    if(!confirm(msg)) return;
+    data.appointments = data.appointments.filter(x=>x.id!==a.id);
+    save(); renderAppointments();
+  });
+  return row;
+}
+
+let showPast = false;
 
 function renderAppointments(){
   const list = document.getElementById('apptList');
   list.innerHTML = '';
-  const items = data.appointments.filter(a=>inRange(a.date))
-    .sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
-  if(items.length===0){
+  const upcoming = data.appointments.filter(a=>inRange(a.date))
+    .sort((a,b)=> (a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+  if(upcoming.length===0){
     list.innerHTML = '<div class="empty-msg">אין תורים בטווח הזה 🌸</div>';
-    return;
+  }else{
+    upcoming.forEach(a=>list.appendChild(apptRow(a, false)));
   }
-  items.forEach(a=>{
-    const row = document.createElement('div');
-    row.className = 'item-row';
-    let details = '';
-    if(a.doctorType) details += `סוג רופא: ${a.doctorType}<br>`;
-    if(a.address) details += `📍 ${a.address}<br>`;
-    if(a.price) details += `💰 ${a.price}<br>`;
-    if(a.notes) details += `📝 ${a.notes}`;
-    row.innerHTML = `
-      <div class="item-icon">${iconForType(a.type)}</div>
-      <div class="item-body">
-        <div class="item-title">${a.type}</div>
-        <div class="item-sub">${heDate(a.date)}${a.time ? ' · '+a.time : ''}</div>
-        ${details ? `<div class="item-details">${details}</div>` : ''}
-      </div>
-      <button class="del-btn" data-id="${a.id}">🗑️</button>
-    `;
-    row.querySelector('.del-btn').addEventListener('click', ()=>{
-      data.appointments = data.appointments.filter(x=>x.id!==a.id);
-      save(); renderAppointments();
-    });
-    list.appendChild(row);
-  });
+
+  const past = data.appointments.filter(a=>{
+    const d = daysFromToday(a.date);
+    return d !== null && d < 0;
+  }).sort((a,b)=> (b.date+(b.time||'')).localeCompare(a.date+(a.time||'')));
+
+  const toggle = document.getElementById('pastToggle');
+  const pastList = document.getElementById('pastList');
+  if(past.length === 0){
+    toggle.classList.add('hidden');
+    pastList.classList.add('hidden');
+  }else{
+    toggle.classList.remove('hidden');
+    toggle.textContent = (showPast ? '▲ הסתר תורים שעברו' : '▼ תורים שעברו (' + past.length + ')');
+    pastList.classList.toggle('hidden', !showPast);
+    pastList.innerHTML = '';
+    if(showPast) past.forEach(a=>pastList.appendChild(apptRow(a, true)));
+  }
+  updateHeader();
 }
-renderAppointments();
+
+document.getElementById('pastToggle').addEventListener('click', ()=>{
+  showPast = !showPast;
+  renderAppointments();
+});
+
+/* הוספת קובץ לתור קיים */
+let attachTargetId = null;
+document.getElementById('rowFileInput').addEventListener('change', async (e)=>{
+  const appt = data.appointments.find(a=>a.id===attachTargetId);
+  const added = await filesFromInput(e.target.files);
+  e.target.value = '';
+  if(!appt || added.length===0) return;
+  const before = (appt.files || []).slice();
+  appt.files = before.concat(added);
+  if(!save()){
+    appt.files = before;
+    save();
+  }else{
+    toast(added.length + ' קבצים נוספו לתור');
+  }
+  renderAppointments();
+});
+
+/* ===================== Viewer ===================== */
+let viewerRef = null;
+
+function openViewer(apptId, fileId){
+  const appt = data.appointments.find(a=>a.id===apptId);
+  if(!appt) return;
+  const file = (appt.files||[]).find(f=>f.id===fileId);
+  if(!file) return;
+  viewerRef = { apptId, fileId };
+  document.getElementById('viewerName').textContent = file.name || 'קובץ';
+  const body = document.getElementById('viewerBody');
+  body.innerHTML = isImage(file)
+    ? `<img class="viewer-img" src="${file.data}" alt="">`
+    : `<p class="modal-note">קובץ מצורף. אפשר לשמור אותו במכשיר ולפתוח משם.</p>`;
+  const dl = document.getElementById('viewerDownload');
+  dl.href = file.data;
+  dl.setAttribute('download', file.name || 'file');
+  document.getElementById('viewer').classList.remove('hidden');
+}
+
+function closeViewer(){
+  document.getElementById('viewer').classList.add('hidden');
+  document.getElementById('viewerBody').innerHTML = '';
+  viewerRef = null;
+}
+
+document.getElementById('viewerClose').addEventListener('click', closeViewer);
+document.getElementById('viewer').addEventListener('click', (e)=>{
+  if(e.target.id === 'viewer') closeViewer();
+});
+document.getElementById('viewerDelete').addEventListener('click', ()=>{
+  if(!viewerRef) return;
+  if(!confirm('למחוק את הקובץ?')) return;
+  const appt = data.appointments.find(a=>a.id===viewerRef.apptId);
+  if(appt) appt.files = (appt.files||[]).filter(f=>f.id!==viewerRef.fileId);
+  save();
+  closeViewer();
+  renderAppointments();
+  toast('הקובץ נמחק');
+});
 
 /* ===================== Groceries ===================== */
+function catRank(c){
+  const i = CATEGORY_ORDER.indexOf(c);
+  return i === -1 ? CATEGORY_ORDER.length - 1.5 : i;
+}
+
 function renderCatalogList(){
   const dl = document.getElementById('groceryCatalogList');
   dl.innerHTML = '';
@@ -598,27 +1114,65 @@ function findCategory(name){
   return found ? found.category : 'אחר';
 }
 
-function addGroceryItem(name){
-  name = name.trim();
+function askCategory(name){
+  const box = document.getElementById('catAsk');
+  document.getElementById('catAskName').textContent = name;
+  const row = document.getElementById('catAskChips');
+  row.innerHTML = '';
+  CATEGORY_ORDER.filter(c=>c!=='אחר').forEach(cat=>{
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.textContent = cat;
+    chip.addEventListener('click', ()=>{
+      const inCatalog = data.groceryCatalog.find(c=>c.name===name);
+      if(inCatalog) inCatalog.category = cat;
+      data.groceryList.filter(i=>i.name===name).forEach(i=>i.category = cat);
+      save();
+      box.classList.add('hidden');
+      renderGroceries();
+    });
+    row.appendChild(chip);
+  });
+  const skip = document.createElement('span');
+  skip.className = 'chip lav';
+  skip.textContent = 'לא עכשיו';
+  skip.addEventListener('click', ()=>box.classList.add('hidden'));
+  row.appendChild(skip);
+  box.classList.remove('hidden');
+}
+
+function addGroceryItem(name, ask){
+  name = String(name||'').trim();
   if(!name) return;
-  if(!data.groceryCatalog.find(c=>c.name===name)){
-    data.groceryCatalog.push({name, category:'אחר'});
-  }
+  const isNew = !data.groceryCatalog.find(c=>c.name===name);
+  if(isNew) data.groceryCatalog.push({name, category:'אחר'});
   if(!data.groceryList.find(i=>i.name===name)){
     data.groceryList.push({id:uid(), name, category: findCategory(name)});
+  }else{
+    toast(name + ' כבר ברשימה');
   }
   save();
   renderCatalogList();
   renderGroceries();
+  if(isNew && ask) askCategory(name);
 }
 
 document.getElementById('groceryAddBtn').addEventListener('click', ()=>{
   const inp = document.getElementById('groceryInput');
-  addGroceryItem(inp.value);
+  addGroceryItem(inp.value, true);
   inp.value = '';
 });
 document.getElementById('groceryInput').addEventListener('keydown', (e)=>{
-  if(e.key==='Enter'){ addGroceryItem(e.target.value); e.target.value=''; }
+  if(e.key==='Enter'){ addGroceryItem(e.target.value, true); e.target.value=''; }
+});
+
+document.getElementById('groceryClearBtn').addEventListener('click', ()=>{
+  if(data.groceryList.length===0){ toast('הרשימה כבר ריקה'); return; }
+  if(!confirm('לנקות את כל רשימת הקניות? (' + data.groceryList.length + ' מצרכים)')) return;
+  data.groceryList = [];
+  save();
+  renderGroceries();
+  toast('הרשימה נוקתה 🧹');
 });
 
 function renderQuickAdd(){
@@ -630,11 +1184,11 @@ function renderQuickAdd(){
     wrap.innerHTML = '<span class="empty-msg" style="padding:0;">כל המצרכים הידועים כבר ברשימה</span>';
     return;
   }
-  available.forEach(c=>{
+  available.slice().sort((a,b)=> catRank(a.category)-catRank(b.category) || a.name.localeCompare(b.name,'he')).forEach(c=>{
     const chip = document.createElement('span');
     chip.className = 'chip';
     chip.textContent = '+ ' + c.name;
-    chip.addEventListener('click', ()=> addGroceryItem(c.name));
+    chip.addEventListener('click', ()=> addGroceryItem(c.name, false));
     wrap.appendChild(chip);
   });
 }
@@ -652,17 +1206,18 @@ function renderGroceries(){
     if(!byCat[item.category]) byCat[item.category] = [];
     byCat[item.category].push(item);
   });
-  Object.keys(byCat).sort().forEach(cat=>{
+  Object.keys(byCat).sort((a,b)=> catRank(a)-catRank(b) || a.localeCompare(b,'he')).forEach(cat=>{
     const heading = document.createElement('div');
     heading.className = 'cat-heading';
-    heading.textContent = cat;
+    heading.textContent = cat + ' (' + byCat[cat].length + ')';
     list.appendChild(heading);
     byCat[cat].forEach(item=>{
       const row = document.createElement('div');
       row.className = 'item-row';
       row.innerHTML = `
-        <div class="checkbox" data-id="${item.id}"></div>
-        <div class="item-body"><div class="item-title">${item.name}</div></div>
+        <div class="checkbox"></div>
+        <div class="item-body"><div class="item-title">${esc(item.name)}</div></div>
+        <button class="del-btn" title="הסר">🗑️</button>
       `;
       row.querySelector('.checkbox').addEventListener('click', ()=>{
         row.classList.add('fade-out');
@@ -671,16 +1226,18 @@ function renderGroceries(){
           save(); renderGroceries();
         }, 220);
       });
+      row.querySelector('.del-btn').addEventListener('click', ()=>{
+        data.groceryList = data.groceryList.filter(x=>x.id!==item.id);
+        save(); renderGroceries();
+      });
       list.appendChild(row);
     });
   });
   renderQuickAdd();
 }
-renderCatalogList();
-renderGroceries();
 
 /* ===================== Tasks ===================== */
-document.getElementById('taskAddBtn').addEventListener('click', ()=>{
+function addTask(){
   const text = document.getElementById('taskInput').value.trim();
   if(!text) return;
   data.tasks.push({
@@ -694,23 +1251,42 @@ document.getElementById('taskAddBtn').addEventListener('click', ()=>{
   document.getElementById('taskDate').value='';
   document.getElementById('taskTime').value='';
   renderTasks();
+}
+document.getElementById('taskAddBtn').addEventListener('click', addTask);
+document.getElementById('taskInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addTask(); });
+
+document.getElementById('taskClearBtn').addEventListener('click', ()=>{
+  const done = data.tasks.filter(t=>t.done).length;
+  if(done===0){ toast('אין מטלות שבוצעו'); return; }
+  if(!confirm('למחוק ' + done + ' מטלות שבוצעו?')) return;
+  data.tasks = data.tasks.filter(t=>!t.done);
+  save(); renderTasks();
+  toast('נוקה 🧹');
 });
+
+function taskSortKey(t){
+  /* מטלות עם תאריך קודם, לפי תאריך ושעה. בלי תאריך בסוף. שבוצעו תמיד למטה */
+  const donePart = t.done ? '1' : '0';
+  const datePart = t.date ? '0'+t.date+(t.time||'99:99') : '1';
+  return donePart + datePart;
+}
 
 function renderTasks(){
   const list = document.getElementById('taskList');
   list.innerHTML = '';
   if(data.tasks.length===0){ list.innerHTML = '<div class="empty-msg">אין מטלות כרגע ✨</div>'; return; }
-  data.tasks.forEach(t=>{
+  data.tasks.slice().sort((a,b)=> taskSortKey(a).localeCompare(taskSortKey(b))).forEach(t=>{
     const row = document.createElement('div');
     row.className = 'item-row';
-    const when = [t.date, t.time].filter(Boolean).join(' · ');
+    const when = [t.date ? heDate(t.date) : '', t.time].filter(Boolean).join(' · ');
+    const late = t.date && !t.done && daysFromToday(t.date) < 0;
     row.innerHTML = `
-      <div class="checkbox ${t.done?'checked':''}" data-id="${t.id}"></div>
+      <div class="checkbox ${t.done?'checked':''}"></div>
       <div class="item-body">
-        <div class="item-title task-text ${t.done?'done':''}">${t.text}</div>
-        ${when ? `<div class="item-sub">${when}</div>` : ''}
+        <div class="item-title task-text ${t.done?'done':''}">${esc(t.text)}</div>
+        ${when ? `<div class="item-sub" ${late?'style="color:var(--danger);font-weight:600;"':''}>${late?'באיחור · ':''}${esc(when)}</div>` : ''}
       </div>
-      <button class="del-btn" data-id="${t.id}">🗑️</button>
+      <button class="del-btn" title="מחק">🗑️</button>
     `;
     row.querySelector('.checkbox').addEventListener('click', ()=>{
       t.done = !t.done; save(); renderTasks();
@@ -721,17 +1297,19 @@ function renderTasks(){
     list.appendChild(row);
   });
 }
-renderTasks();
 
 /* ===================== Wishlist ===================== */
-document.getElementById('wishAddBtn').addEventListener('click', ()=>{
+function addWish(){
   const text = document.getElementById('wishInput').value.trim();
   if(!text) return;
   data.wishlist.push({id:uid(), text});
   save();
   document.getElementById('wishInput').value='';
   renderWishlist();
-});
+}
+document.getElementById('wishAddBtn').addEventListener('click', addWish);
+document.getElementById('wishInput').addEventListener('keydown', e=>{ if(e.key==='Enter') addWish(); });
+
 function renderWishlist(){
   const list = document.getElementById('wishList');
   list.innerHTML = '';
@@ -741,8 +1319,8 @@ function renderWishlist(){
     row.className = 'item-row';
     row.innerHTML = `
       <div class="item-icon">💗</div>
-      <div class="item-body"><div class="item-title">${w.text}</div></div>
-      <button class="del-btn" data-id="${w.id}">🗑️</button>
+      <div class="item-body"><div class="item-title">${esc(w.text)}</div></div>
+      <button class="del-btn" title="מחק">🗑️</button>
     `;
     row.querySelector('.del-btn').addEventListener('click', ()=>{
       data.wishlist = data.wishlist.filter(x=>x.id!==w.id); save(); renderWishlist();
@@ -750,19 +1328,27 @@ function renderWishlist(){
     list.appendChild(row);
   });
 }
-renderWishlist();
 
 /* ===================== Recipes ===================== */
-document.getElementById('recipeAddBtn').addEventListener('click', ()=>{
+function normalizeLink(link){
+  link = String(link||'').trim();
+  if(!link) return '';
+  if(!/^https?:\/\//i.test(link)) link = 'https://' + link;
+  return link;
+}
+function addRecipe(){
   const name = document.getElementById('recipeName').value.trim();
-  const link = document.getElementById('recipeLink').value.trim();
+  const link = normalizeLink(document.getElementById('recipeLink').value);
   if(!name) return;
   data.recipes.push({id:uid(), name, link});
   save();
   document.getElementById('recipeName').value='';
   document.getElementById('recipeLink').value='';
   renderRecipes();
-});
+}
+document.getElementById('recipeAddBtn').addEventListener('click', addRecipe);
+document.getElementById('recipeName').addEventListener('keydown', e=>{ if(e.key==='Enter') addRecipe(); });
+
 function renderRecipes(){
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
@@ -773,10 +1359,10 @@ function renderRecipes(){
     row.innerHTML = `
       <div class="item-icon">🍲</div>
       <div class="item-body">
-        <div class="item-title">${r.name}</div>
-        ${r.link ? `<a class="recipe-link" href="${r.link}" target="_blank" rel="noopener">🔗 למתכון</a>` : ''}
+        <div class="item-title">${esc(r.name)}</div>
+        ${r.link ? `<a class="recipe-link" href="${esc(r.link)}" target="_blank" rel="noopener">🔗 למתכון</a>` : ''}
       </div>
-      <button class="del-btn" data-id="${r.id}">🗑️</button>
+      <button class="del-btn" title="מחק">🗑️</button>
     `;
     row.querySelector('.del-btn').addEventListener('click', ()=>{
       data.recipes = data.recipes.filter(x=>x.id!==r.id); save(); renderRecipes();
@@ -784,7 +1370,103 @@ function renderRecipes(){
     list.appendChild(row);
   });
 }
-renderRecipes();
+
+/* ===================== Header ===================== */
+function updateHeader(){
+  const todayCount = data.appointments.filter(a=>daysFromToday(a.date)===0).length;
+  const openTasks = data.tasks.filter(t=>!t.done).length;
+  const d = new Date();
+  const parts = [DAY_NAMES[d.getDay()] + ', ' + d.getDate() + '.' + (d.getMonth()+1)];
+  if(todayCount) parts.push(todayCount === 1 ? 'תור אחד היום' : todayCount + ' תורים היום');
+  if(openTasks) parts.push(openTasks === 1 ? 'מטלה אחת פתוחה' : openTasks + ' מטלות פתוחות');
+  document.getElementById('headerSub').textContent = parts.join(' · ');
+}
+
+/* ===================== Settings & Backup ===================== */
+function usageChars(){
+  try{ return JSON.stringify(data).length; }catch(e){ return 0; }
+}
+function updateUsage(){
+  const used = usageChars();
+  const pct = Math.min(100, Math.round(used / STORAGE_LIMIT_CHARS * 100));
+  document.getElementById('usageFill').style.width = pct + '%';
+  const mb = (used * 2 / 1048576).toFixed(1);
+  const files = data.appointments.reduce((n,a)=>n+((a.files||[]).length), 0);
+  document.getElementById('usageText').textContent =
+    'בשימוש כ-' + mb + 'MB מתוך כ-5MB (' + pct + '%), כולל ' + files + ' קבצים מצורפים.';
+}
+
+document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  updateUsage();
+  document.getElementById('settings').classList.remove('hidden');
+});
+document.getElementById('settingsClose').addEventListener('click', ()=>{
+  document.getElementById('settings').classList.add('hidden');
+});
+document.getElementById('settings').addEventListener('click', (e)=>{
+  if(e.target.id === 'settings') document.getElementById('settings').classList.add('hidden');
+});
+
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  a.href = url;
+  a.download = 'lior-backup-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  toast('הגיבוי נשמר');
+});
+
+document.getElementById('importInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  e.target.value = '';
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const parsed = JSON.parse(r.result);
+      if(!confirm('לשחזר מהגיבוי? הנתונים הקיימים יוחלפו.')) return;
+      data = normalize(parsed);
+      if(save()){
+        renderAll();
+        document.getElementById('settings').classList.add('hidden');
+        toast('שוחזר מהגיבוי 💗');
+      }
+    }catch(err){
+      toast('הקובץ לא תקין');
+    }
+  };
+  r.onerror = ()=>toast('לא הצלחתי לקרוא את הקובץ');
+  r.readAsText(file);
+});
+
+document.getElementById('wipeBtn').addEventListener('click', ()=>{
+  if(!confirm('למחוק את כל הנתונים? אין דרך חזרה בלי גיבוי.')) return;
+  if(!confirm('בטוחה? הכל יימחק.')) return;
+  data = freshData();
+  save();
+  renderAll();
+  document.getElementById('settings').classList.add('hidden');
+  toast('הנתונים נמחקו');
+});
+
+/* ===================== Init ===================== */
+function renderAll(){
+  renderTypeSelect();
+  renderCatalogList();
+  renderAppointments();
+  renderGroceries();
+  renderTasks();
+  renderWishlist();
+  renderRecipes();
+  updateHeader();
+}
+renderAll();
 </script>
 </body>
 </html>
