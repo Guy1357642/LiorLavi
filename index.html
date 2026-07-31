@@ -973,7 +973,14 @@ const DEFAULT_CATALOG = [
   ["עגבניות שרי","ירקות ופירות"],["מלפפון","ירקות ופירות"],["עגבניה","ירקות ופירות"],
   ["גמבה","ירקות ופירות"],["פטרוזיליה","ירקות ופירות"],["כוסברה","ירקות ופירות"],
   ["שום","ירקות ופירות"],["בצל","ירקות ופירות"],["גזר","ירקות ופירות"],
-  ["רכז עגבניות","רטבים ושימורים"],["חטיפים","חטיפים ומתוקים"],["קורנפלקס","מוצרים יבשים"]
+  ["רכז עגבניות","רטבים ושימורים"],["חטיפים","חטיפים ומתוקים"],["קורנפלקס","מוצרים יבשים"],
+  ["אפונה קפואה","קפואים"],["תירס קפוא","קפואים"],["ירקות קפואים","קפואים"],
+  ["שניצל קפוא","קפואים"],["פיצה קפואה","קפואים"],["בורקס קפוא","קפואים"],
+  ["גלידה","קפואים"],["קרח","קפואים"],["פילה דג קפוא","קפואים"],
+  ["קמח","אפיה"],["סוכר","אפיה"],["אבקת אפייה","אפיה"],["שמרים","אפיה"],
+  ["סודה לשתייה","אפיה"],["תמצית וניל","אפיה"],["סוכר וניל","אפיה"],
+  ["קקאו","אפיה"],["שוקולד למאפה","אפיה"],["קוקוס","אפיה"],
+  ["נייר אפייה","אפיה"],["סוכריות צבעוניות","אפיה"]
 ];
 
 function freshData(){
@@ -1046,6 +1053,10 @@ function normalize(raw){
     if(!out.appointmentTypes.includes(t)) out.appointmentTypes.push(t);
   });
   out.appointmentTypes = out.appointmentTypes.filter((t,i,arr)=>arr.indexOf(t)===i);
+  /* מצרכים חדשים מהקטלוג נכנסים בלי לדרוס מה שקיים */
+  DEFAULT_CATALOG.forEach(([name, category])=>{
+    if(!out.groceryCatalog.some(c=>c.name === name)) out.groceryCatalog.push({name, category});
+  });
   out.wishlist = out.wishlist.filter(w=>w && w.text).map(w=>({id:w.id||uid(), text:w.text}));
   out.recipes = out.recipes.filter(r=>r && r.name).map(r=>({id:r.id||uid(), name:r.name, link:r.link||''}));
   return out;
@@ -2801,12 +2812,17 @@ document.addEventListener('visibilitychange', ()=>{
 <script>
 /* בדיקת עדכון אוטומטית - נוסף על ידי קלוד */
 (function(){
-  var BUILD = 'v2';
+  var BUILD = 'v3';
   function check(){
     fetch('version.json?cb=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
       .then(function(j){
         if (!j || !j.build || j.build === BUILD || document.getElementById('up-bar')) return;
+        var asked = new URLSearchParams(location.search).get('v');
+        if (asked !== j.build){
+          location.replace(location.pathname + '?v=' + encodeURIComponent(j.build) + '&t=' + Date.now());
+          return;
+        }
         var bar = document.createElement('div');
         bar.id = 'up-bar';
         bar.setAttribute('style','position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;gap:10px;'+
@@ -2828,6 +2844,16 @@ document.addEventListener('visibilitychange', ()=>{
       })
       .catch(function(){});
   }
+  function stamp(){
+    if (document.getElementById('build-tag')) return;
+    var s = document.createElement('div');
+    s.id = 'build-tag';
+    s.textContent = BUILD;
+    s.setAttribute('style','position:fixed;left:5px;bottom:calc(2px + env(safe-area-inset-bottom));'+
+      'z-index:9998;font:600 9px -apple-system,system-ui,sans-serif;color:#8a8a8a;opacity:.5;pointer-events:none');
+    document.body.appendChild(s);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', stamp); else stamp();
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) check(); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', check);
   else check();
