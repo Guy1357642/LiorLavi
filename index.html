@@ -959,7 +959,7 @@ const NAILS_NEW = ["ציפורניים - ידיים","ציפורניים - רג�
 const RENAMED_TYPES = [["תור למסעדה","הזמנה למסעדה"]];
 const ADDED_TYPES = ["תספורת לכלב"];
 
-const CATEGORY_ORDER = ["ירקות ופירות","מוצרי חלב","בשר ועוף","מוצרים יבשים","רטבים ושימורים","חטיפים ומתוקים","משקאות","ניקיון וטואלטיקה","אחר"];
+const CATEGORY_ORDER = ["ירקות ופירות","מוצרי חלב","בשר ועוף","קפואים","מוצרים יבשים","אפיה","רטבים ושימורים","חטיפים ומתוקים","משקאות","ניקיון וטואלטיקה","אחר"];
 
 const DEFAULT_CATALOG = [
   ["קטשופ","רטבים ושימורים"],["גבינה לבנה","מוצרי חלב"],["לבנה","מוצרי חלב"],
@@ -2801,7 +2801,7 @@ document.addEventListener('visibilitychange', ()=>{
 <script>
 /* בדיקת עדכון אוטומטית - נוסף על ידי קלוד */
 (function(){
-  var BUILD = 'v1';
+  var BUILD = 'v2';
   function check(){
     fetch('version.json?cb=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
