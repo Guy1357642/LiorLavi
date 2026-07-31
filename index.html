@@ -2891,7 +2891,7 @@ document.addEventListener('visibilitychange', ()=>{
 <script>
 /* בדיקת עדכון אוטומטית - נוסף על ידי קלוד */
 (function(){
-  var BUILD = 'v6';
+  var BUILD = 'v7';
   function check(){
     fetch('version.json?cb=' + Date.now(), { cache: 'no-store' })
       .then(function(r){ return r.json(); })
@@ -2929,8 +2929,8 @@ document.addEventListener('visibilitychange', ()=>{
     var p = document.createElement('p');
     p.id = 'build-note';
     p.className = 'modal-note';
-    p.setAttribute('style','opacity:.55;font-size:11px;margin-top:12px');
-    p.textContent = 'גרסה ' + BUILD;
+    p.setAttribute('style','opacity:.7;font-size:11px;margin-top:14px;border-top:1px solid rgba(0,0,0,.08);padding-top:10px');
+    p.textContent = 'גרסת אפליקציה: ' + BUILD;
     card.appendChild(p);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', stamp); else stamp();
